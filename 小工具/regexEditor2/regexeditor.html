@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quick Start</title>
+    <link href="https://cdn.quilljs.com/1.3.2/quill.snow.css" rel="stylesheet">
+</head>
+ 
+<body>
+    <div id="editor" style="border:solid 2px black;height:900px;font-size:40px" oninput="OnInput(event)" value=""></div>
+ 
+    <script src="https://cdn.quilljs.com/1.3.2/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor');
+        var colors = new Array("#F00","#F60","#FF0","#0C0","#699","#06C","#909","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000","#000");
+        function OnInput (event) {
+            var colorIndex = -1;
+            var originIndex = quill.getSelection().index;
+            var text = document.getElementById("editor").innerText;
+            console.log(text.length);
+            for(var i=0;i<text.length-2;i++){
+                if(text.substr(i,1) == "("){
+                    colorIndex++;
+                    quill.setSelection(i,1);
+                    quill.format('color',colors[colorIndex]);                          
+                }else if(text.substr(i,1) == ")"){
+                    quill.setSelection(i,1);
+                    quill.format('color',colors[colorIndex]);
+                    colorIndex--;
+                }
+            }
+            quill.setSelection(originIndex,0);
+            quill.format('color','black');
+            //console.log(text.length);
+            //document.execCommand("ForeColor","false","699");
+        }
+    </script>
+ 
+</body>
+ 
+</html>
